@@ -1,0 +1,113 @@
+<html>
+    <style>
+		
+
+	.card{
+		width:300px;
+
+		padding:10px;
+		margin:10px;
+		display:inline-block;
+		border-radius:10px;
+		box-shadow:black 5px 5px 5px;
+	}
+	h1{
+		font-family:"Arial";
+		text-shadow:gray 2px 2px 2px;
+	}
+	p,a{
+		font-size:14pt;
+		font-family:"Arial";
+	}
+	img{
+		width:90%;
+		margin:5px;
+		border-radius:10px;
+		box-shadow:black 5px 5px 5px;
+	}
+	a{
+		background-color:blue;
+		text-decoration:none;
+		color:white;
+		font-weight:bold;
+		padding:5px;
+		border-radius:10px;
+		box-shadow:black 5px 5px 5px;
+		
+	}
+	
+</style>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU"></script>
+    
+	<script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
+    <script type= "text/template" id = "ctemp">
+        <div card = "class">
+            <h1> {{Name}} </h1>
+		<p> {{Location}} </p>
+		<marquee>  {{lat}} </marquee>
+		<marquee> {{lon}} </marquee>
+	</div>
+    </script>
+<script>
+
+	
+	var data;
+	function search(){				
+		$.getJSON("DPR_Basketball_001.json",function(results){
+			data = results;
+		})
+	}
+	
+	function displayCourts(){
+		var build = "";
+        var location = document.getElementById("location")
+		var output = document.getElementById("output")
+		var count = 0;
+		var ctmp = document.getElementById("ctmp")
+		
+		
+		for(var index = 0; index < data.length; index++){
+			try{
+				if(data[index].location.toLowerCase().indexOf(location.value.toLowerCase()) !=  -1){
+					build += Mustache.render(ctmp,data[index]);
+					count += 1;
+				
+					
+				}
+			}catch(e){
+
+			}
+			
+
+		output.innerHTML = "<h1>Courts: " + count + "</h1><br>" + build;		
+    }
+	}
+	
+</script>
+<div class = "bg"></div>
+<p> "Are you interested in joining a basketball tournament this summer? Well, you are in luck. 
+There are many basketball tournaments in New York this summer. These tournaments will be 
+held in many parks through New York. All  the parks that have basketball tournaments will 
+be in the directorty below.This directory was made using various computer programming languages such as JSON, CSS
+HTML, Javascript and many more. These languages have many different purposes. First, Json was 
+used to loacte all the parks using dataset. To simplify the dataset, we used the json online 
+editor and used the variables given as information about the parks. We used Javascript to 
+program the dataset and convert it into a code. Next, we used HTML to interact with 
+elements. Then, We used CSS to decorate and design this page. Finally, Javascript 
+is used again to display the JSON to the user." </p>
+
+
+<body onload="search()">
+	<input type="text" id="name" placeholder="Enter Location of Court">
+	<button onclick="displayCourts()"> Display</button>
+	<div id="output">
+	</div>
+	
+
+</body>
+
+</html>
+
+
+    
